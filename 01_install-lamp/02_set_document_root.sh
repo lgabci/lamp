@@ -7,7 +7,10 @@ if [ "$USER" != "root" ]; then
 fi
 
 if ! grep -q lamp-public-html /etc/fstab; then
+  mkdir -p /var/www/lamp-public-html
   echo '/home/gabci/projects/lamp/www/public-html /var/www/lamp-public-html none bind 0 0' >>/etc/fstab
+  systemctl daemon-reload
+  mount /home/gabci/projects/lamp/www/public-html
 fi
 
 if [ ! -e /etc/apache2/sites-available/lamp.conf ]; then
@@ -16,9 +19,18 @@ if [ ! -e /etc/apache2/sites-available/lamp.conf ]; then
     >/etc/apache2/sites-available/lamp.conf
 fi
 
+restart=""
 
- az /etc/apache2/sites-enabledben vannak az enabled site-ok.
-a2ensite lamp.conf
-a2dissite 000-default.conf
-apache2ctl configtest
-systemctl restart apache2.service
+if [ ! -e /etc/apache2/sites-enabled/lamp.conf ]; then
+  a2ensite lamp.conf
+  restart="Y"
+fi
+
+if [ -e /etc/apache2/sites-enabled/000-default.conf ]; then
+  a2dissite 000-default.conf
+  restart="Y"
+fi
+
+if [ "$restart" = "Y" ]; then
+  systemctl restart apache2.service
+fi

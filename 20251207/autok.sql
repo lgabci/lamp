@@ -1,7 +1,7 @@
 -- execute this SQL script:
--- mysql -u lamp_user -palmA0000 <04_create_db.sql
+-- mysql -u lamp_user -palmA0000 <autok.sql
 
-use lamp_db;
+use lamp_db
 
 create table autok(id int unsigned not null auto_increment primary key,
                    rendszam varchar(10) not null,

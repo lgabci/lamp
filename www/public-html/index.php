@@ -49,11 +49,29 @@ else {
 }
 ?>
 
+<hr>
+
+<?php
+// SQL select
+$sql = "select foverzio, alverzio, szoveg
+          from verzio";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+
+  while ($row = $result->fetch_assoc()) {
+    echo "<p>Verzió: " .
+      htmlspecialchars($row["foverzio"]) . "." .
+      htmlspecialchars($row["alverzio"]) . " " .
+      htmlspecialchars($row["szoveg"]) . "</p>";
+  }
+}
+?>
+
 <?php
 $conn->close();
 ?>
 
-<hr>
 <p>Powered by Linux, Apache2, MariaDB (MySQL) and PHP.</p>
 
 </body>
