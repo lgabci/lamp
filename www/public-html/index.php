@@ -21,33 +21,6 @@ try {
   throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
-// action
-  if (isset($_GET['muvelet'])) {
-    $muvelet = $_GET['muvelet'];
-    $rendszam = $_GET['rendszam'];
-    $tipus = $_GET['tipus'];
-    $szin = $_GET['szin'];
-    $evjarat = $_GET['evjarat'];
-
-    switch ($muvelet) {
-      case 'uj':
-        $sql = "insert into autok (rendszam, tipus, szin, evjarat)
-                           values (:rendszam, :tipus, :szin, :evjarat)";
-        $stmt = $pdo->prepare($sql);
-
-        $stmt->bindValue(':rendszam', $rendszam, PDO::PARAM_STR);
-        $stmt->bindValue(':tipus', $tipus, PDO::PARAM_STR);
-        $stmt->bindValue(':szin', $szin, PDO::PARAM_STR);
-        $stmt->bindValue(':evjarat', $evjarat, PDO::PARAM_STR);
-
-        $stmt->execute();
-
-        break;
-    }
-  }
-
-
-
 // SQL select
 $sql = "select id, rendszam, tipus, szin, evjarat
           from autok
@@ -72,7 +45,7 @@ $autok_lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php
 $sorok_szama = count($autok_lista);
 if ($sorok_szama > 0) {
-  echo "<table>";
+  echo "<table border=\"1\">";
   echo "<tr><th>ID</th><th>Rendszám</th><th>Típus</th>" .
     "<th>Szín</th><th>Évjárat</th></tr>";
 
@@ -92,22 +65,7 @@ else {
 
   <hr>
 
-
-
-  <p>Próba form</p>
-  <form action="index.php">
-    <label for="rendszam">Rendszám:</label>
-    <input type="text" id="rendszam" name="rendszam" value=""><br>
-    <label for="tipus">Típus:</label>
-    <input type="text" id="tipus" name="tipus" value=""><br>
-    <label for="szin">Szín:</label>
-    <input type="text" id="szin" name="szin" value=""><br>
-    <label for="evjarat">Évjárat:</label>
-    <input type="text" id="evjarat" name="evjarat" value=""><br>
-    <button type="submit" value="uj" name="muvelet">Rendben</button>
-  </form>
-
-
+  <a href="formok.php">Form karbantartás</a>
 
   <hr>
 
